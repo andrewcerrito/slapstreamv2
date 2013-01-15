@@ -2,9 +2,9 @@
 // By Andrew Cerrito
 // Stars and parallax motion modified very slightly from William Smith's sketch on OpenProcessing:
 // http://www.openprocessing.org/sketch/63495
-// Kinect code adapted examples from Making Things See by Greg Borenstein
+// Kinect code adapted from examples from Making Things See by Greg Borenstein
 // Thanks to:
-// Dan Shiffman, who reworked some of my code into cleaner, more usable code
+// Dan Shiffman, who helped me rework some code into cleaner, more usable code
 // Mark Kleback, for helping me with array lists
 // Genevieve Hoffman, for trying to help me with the lives issue
 
@@ -43,10 +43,7 @@ boolean titleScreen = true;
 
 // booleans relating to hero lives and collision detection
 boolean heroHit = false;
-boolean collideState = false;
-boolean prevState = false;
-boolean firstHit = false;
-int hitCount = 0;
+// int hitCount = 0;
 
 void setup() {
   size((600+640), 850);
@@ -70,7 +67,7 @@ void setup() {
   for (int i = 0; i < stars.length; i ++) stars[i] = new Star();
   offset = new PVector(width / 2, height / 2);
 
-  //Kinect init
+  //Kinect initialization
   kinect = new SimpleOpenNI(this);
   kinect.enableDepth();
   kinect.enableUser(SimpleOpenNI.SKEL_PROFILE_ALL);
@@ -109,7 +106,6 @@ void draw() {
 
 
     if (heroLives > 0) {
-      
       speedCalc();
       kinectDraw();
       hero.display();
@@ -123,10 +119,10 @@ void draw() {
         //println("obst.x " + obst.x + "obst.y " + obst.y);
       }
 
-      if (heroHit == true && hitCount<=5) {
-        heroLives--;
-        heroHit = false;
-      }
+//      if (heroHit == true && hitCount<=5) {
+//        heroLives--;
+//        heroHit = false;
+//      }
 
 
       if (obstacles.size() > 20) {
@@ -136,7 +132,7 @@ void draw() {
       speedVectorDraw();
     } 
 
-    else {
+    else {  // if zero lives remaining:
       background(0);
       starField();
       fill(255, 255, 0);

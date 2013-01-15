@@ -1,6 +1,11 @@
 class Hero {
   float x, y, w;
   float rad;
+
+//collision detection booleans  
+boolean collideState = false;
+boolean prevState = false;
+int hitCount = 0;
   
 
   Hero (float tx, float ty, float tw) {
@@ -36,22 +41,20 @@ class Hero {
 
   void collideDetect (float obstX, float obstY, float obstRad) {
 
-    float distFromObst = dist(x, y, obstX, obstY);
     prevState = collideState;
+    float distFromObst = dist(x, y, obstX, obstY);
     if (distFromObst < rad + obstRad) {
       c1 = color(255, 0, 0);
       collideState = true; 
-//      println("colliding.");
     }
-//    else if (distFromObst > rad + obstRad) {
-//      collideState = false;
-//    }
-      if (collideState == true) {
+    else if (distFromObst > rad + obstRad) {
+      collideState = false;
+    }
+    
+      if (collideState == true && collideState != prevState) {
         heroHit=true;
         hitCount++;
-        firstHit=true;
         println(hitCount);
-        //println("Hit!");
 //        collideState = false;
      
     } 

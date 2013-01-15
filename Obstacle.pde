@@ -27,6 +27,8 @@ class Obstacle {
     }
   }
 
+// Moved collision detection to hero class - kept this here for reference
+
 //  void collideDetect (float heroX, float heroY, float heroRad) {
 //    float distFromHero = dist(x, y, heroX, heroY);
 //    if (distFromHero < rad + heroRad) {
