@@ -44,11 +44,11 @@ class Hero {
   void collideDetect (float obstX, float obstY, float obstRad) {
 
     // time based approach: when hit, take a life away, but
-    // make hero invulnerable for 3 seconds after hit.
+    // make hero invulnerable for 2 seconds after hit.
     float distFromObst = dist(x, y, obstX, obstY);
     if (distFromObst < rad + obstRad) {
       c1 = color(255, 0, 0);
-      if (millis() - timeWhenHit > 3000) {
+      if (millis() - timeWhenHit > 2000) {
         heroLives--;
         timeWhenHit = millis();
       }
