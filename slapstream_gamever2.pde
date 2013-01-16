@@ -7,6 +7,7 @@
 // Dan Shiffman, who helped me rework some code into cleaner, more usable code
 // Mark Kleback, for helping me with array lists
 // Genevieve Hoffman, for trying to help me with the lives issue
+// Ben Smith, for helping me finally solve the lives thing
 
 import SimpleOpenNI.*;
 SimpleOpenNI kinect;
@@ -118,12 +119,6 @@ void draw() {
         hero.collideDetect(obst.x, obst.y, obst.rad);
         //println("obst.x " + obst.x + "obst.y " + obst.y);
       }
-
-//      if (heroHit == true && hitCount<=5) {
-//        heroLives--;
-//        heroHit = false;
-//      }
-
 
       if (obstacles.size() > 20) {
         obstacles.remove(0);
