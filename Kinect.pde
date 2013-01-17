@@ -74,6 +74,7 @@ void onEndCalibration(int userId, boolean successful) {
   if (successful) {
     println("User " + userId + " calibrated !!!");
     kinect.startTrackingSkeleton(userId);
+    titleScreen = false;
   }
   else {
     println("  Failed to calibrate " + userId + " !!!");

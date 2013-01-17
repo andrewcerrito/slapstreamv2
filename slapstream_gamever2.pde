@@ -61,6 +61,7 @@ void setup() {
 
   // define hero, obstacle, and stars
   hero = new Hero(600/2, height-80, 70, green); //SET TO 600 - CHANGE BACK LATER
+  hero2P = new Hero(600/2 + 50, height-80, 70, blue);
 
   for (int i =0; i < 5; i++) {
     Obstacle obst = new Obstacle(randX, 10);
