@@ -1,5 +1,6 @@
 class Hero {
   float x, y, w;
+  color playerColor;
   float rad;
 
   //collision detection booleans  
@@ -10,16 +11,17 @@ class Hero {
 
 
 
-  Hero (float tx, float ty, float tw) {
+  Hero (float tx, float ty, float tw, color tplayerColor) {
     x = tx;
     y = ty;
     w = tw;
     rad = w/2;
+    playerColor = tplayerColor;
   }
 
   void display() {
     stroke(255);
-    fill(0, 255, 0);
+    fill(playerColor);
     ellipse(x, y, w, w);
   }
 

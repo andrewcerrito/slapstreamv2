@@ -13,6 +13,7 @@ import SimpleOpenNI.*;
 SimpleOpenNI kinect;
 
 Hero hero;
+Hero hero2P;
 ArrayList<Obstacle> obstacles = new ArrayList();
 Star[] stars;
 
@@ -34,6 +35,8 @@ int heroLives = 5;
 int randX = 10;
 
 color c1 = color(0, 0, 0);
+color green = color(0, 255, 0);
+color blue = color(0, 0, 255);
 PFont pixelFont;
 PFont defaultFont;
 PImage psipose;
@@ -57,7 +60,7 @@ void setup() {
 
 
   // define hero, obstacle, and stars
-  hero = new Hero(600/2, height-80, 70); //SET TO 600 - CHANGE BACK LATER
+  hero = new Hero(600/2, height-80, 70, green); //SET TO 600 - CHANGE BACK LATER
 
   for (int i =0; i < 5; i++) {
     Obstacle obst = new Obstacle(randX, 10);
