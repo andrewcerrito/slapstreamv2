@@ -1,3 +1,4 @@
+
 void kinectDraw() {
   kinect.update();
   image(kinect.depthImage(), 600, 100);

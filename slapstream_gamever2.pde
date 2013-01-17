@@ -17,13 +17,6 @@ Hero hero2;
 ArrayList<Obstacle> obstacles = new ArrayList();
 Star[] stars;
 
-PVector rhand = new PVector(width/2, height/2);
-PVector prhand = new PVector(width/2, height/2);
-PVector rhandvel = new PVector(0, 0);
-
-PVector lhand = new PVector(width/2, height/2);
-PVector plhand = new PVector(width/2, height/2);
-PVector lhandvel = new PVector(0, 0);
 
 // For the star movement:
 PVector offset;
@@ -136,7 +129,10 @@ void draw() {
 
 // Right now, game is set to end if either player loses all lives. Change this later.
     if (heroLives > 0 && hero2Lives > 0) {
-      speedCalc();
+      hero.speedCalc();
+      if (p2ready) {
+        hero2.speedCalc();
+      }
       kinectDraw();
       hero.display();
       hero.moveCheck();
@@ -159,7 +155,7 @@ void draw() {
         obstacles.remove(0);
       }
 
-      speedVectorDraw();
+      hero.speedVectorDraw(); // Visualize vectors onscreen for P1 only
     } 
 
     else {  // if zero lives remaining:
@@ -171,35 +167,6 @@ void draw() {
     }
   }
 }
-
-void speedCalc() {
-  // Calculates velocity of hands and interpolates it for smoothness
-  PVector rvelocity = PVector.sub(rhand, prhand);
-  rhandvel.x = lerp(rhandvel.x, rvelocity.x, 0.4);
-  rhandvel.y = lerp(rhandvel.y, rvelocity.y, 0.4);
-  PVector lvelocity = PVector.sub(lhand, plhand);
-  lhandvel.x = lerp(lhandvel.x, lvelocity.x, 0.4);
-  lhandvel.y = lerp(lhandvel.y, lvelocity.y, 0.4);
-}
-
-void speedVectorDraw() {
-  strokeWeight(1);
-  stroke(0, 255, 0);
-  pushMatrix();
-  translate(width/2, height/2);
-  scale(10);
-
-  stroke(0, 255, 0);
-  line(0, 0, rhandvel.x, rhandvel.y);
-  text (rhandvel.mag(), 0, 40);
-
-  stroke(255, 0, 0);
-  line(0, 0, lhandvel.x, lhandvel.y);
-  text (lhandvel.mag(), 0, 30);
-
-  popMatrix();
-}
-
 
 
 void starField() {
