@@ -10,15 +10,18 @@ void kinectDraw() {
     int user2 = userList.get(1);
     if (kinect.isTrackingSkeleton(user1)) {
       drawSkeleton(user1);
+      p1ready = true;
     }
     if (kinect.isTrackingSkeleton(user2)) {
       drawSkeleton(user2);
+      p2ready = true;
     }
   }
   else if (userList.size() > 0) {
     int userId = userList.get(0);
     if (kinect.isTrackingSkeleton(userId)) {
       drawSkeleton(userId);
+      p1ready = true;
     }
   }
 }
@@ -74,7 +77,6 @@ void onEndCalibration(int userId, boolean successful) {
   if (successful) {
     println("User " + userId + " calibrated !!!");
     kinect.startTrackingSkeleton(userId);
-    titleScreen = false;
   }
   else {
     println("  Failed to calibrate " + userId + " !!!");

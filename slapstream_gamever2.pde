@@ -13,7 +13,7 @@ import SimpleOpenNI.*;
 SimpleOpenNI kinect;
 
 Hero hero;
-Hero hero2P;
+Hero hero2;
 ArrayList<Obstacle> obstacles = new ArrayList();
 Star[] stars;
 
@@ -32,8 +32,10 @@ PVector offset;
 float leftHandMagnitude, rightHandMagnitude;
 
 int heroLives = 5;
+int hero2Lives = 5;
 int randX = 10;
 
+// Style-related variables
 color c1 = color(0, 0, 0);
 color green = color(0, 255, 0);
 color blue = color(0, 0, 255);
@@ -44,10 +46,11 @@ PImage psipose;
 // Boolean relating to title screen, will turn false and start game when
 // Kinect detects user pose
 boolean titleScreen = true;
+boolean p1ready = false;    
+boolean p2ready = false;
 
-// booleans relating to hero lives and collision detection
-boolean heroHit = false;
-// int hitCount = 0;
+//Frame counter to give a short delay after detecting 1P to detect 2P
+int frameCounter = 0;
 
 void setup() {
   size((600+640), 850);
@@ -61,13 +64,13 @@ void setup() {
 
   // define hero, obstacle, and stars
   hero = new Hero(600/2, height-80, 70, green); //SET TO 600 - CHANGE BACK LATER
-  hero2P = new Hero(600/2 + 50, height-80, 70, blue);
+  hero2 = new Hero(600/2 + 50, height-80, 70, blue);
 
   for (int i =0; i < 5; i++) {
     Obstacle obst = new Obstacle(randX, 10);
     obstacles.add(obst);
   }
-  
+
   stars = new Star[width];
   for (int i = 0; i < stars.length; i ++) stars[i] = new Star();
   offset = new PVector(width / 2, height / 2);
@@ -83,7 +86,7 @@ void draw() {
   c1 = color(0, 0, 0);
   starField();
 
-// displays title screen until user does Psi pose
+  // displays title screen until user does Psi pose
   if (titleScreen) {
     kinectDraw();
     pushStyle();
@@ -96,32 +99,60 @@ void draw() {
     image(psipose, width/4, (height/2+150));
     popStyle();
     
+    // If both players detected, start game immediately.
+    // If only one player detected, wait a short while to try to detect add'l player.
+    // If no 2P detected, start game.
+    if (p1ready && p2ready) {
+      titleScreen = false;
+    }
+    else if (p1ready &! p2ready) {
+      pushStyle();
+      fill(green);
+      textFont(pixelFont, 18);
+      text("1 player detected - starting game shortly", 165, height-50);
+      popStyle();
+      frameCounter++;
+      println(frameCounter);
+    }
+    if (frameCounter > 125) {
+      titleScreen = false;
+    }
   }
 
-// if user poses, game begins
+
+  // if user poses, game begins
   if (!titleScreen) {
     fill(255);
     pushStyle();
     textFont(pixelFont, 24); 
     text("Lives: " + heroLives, 10, 30);
+    if (p2ready) {
+      text("P2 Lives: " + hero2Lives, 500, 30);
+    }
     popStyle();
     textFont(defaultFont);
     text (frameRate, width-60, height-60);
     //  text (topSpeed, width-60, height-100);
 
-
-    if (heroLives > 0) {
+// Right now, game is set to end if either player loses all lives. Change this later.
+    if (heroLives > 0 && hero2Lives > 0) {
       speedCalc();
       kinectDraw();
       hero.display();
       hero.moveCheck();
+      if (p2ready) {
+        hero2.display();
+        hero2.moveCheck();
+      }
 
       for (int i = 0; i < obstacles.size(); i++) {
         Obstacle obst = obstacles.get(i);
         obst.display();
         obst.move();
         hero.collideDetect(obst.x, obst.y, obst.rad);
-        //println("obst.x " + obst.x + "obst.y " + obst.y);
+        if(p2ready) {
+          hero.collideDetect(obst.x, obst.y, obst.rad);
+        }
       }
 
       if (obstacles.size() > 20) {
@@ -136,7 +167,7 @@ void draw() {
       starField();
       fill(255, 255, 0);
       textFont(pixelFont, 48);
-      text("GAME OVER", 125, height/2);   
+      text("GAME OVER", 125, height/2);
     }
   }
 }
