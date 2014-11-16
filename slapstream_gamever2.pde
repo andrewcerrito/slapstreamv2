@@ -120,7 +120,7 @@ void draw() {
     textFont(pixelFont, 24); 
     text("Lives: " + heroLives, 10, 30);
     if (p2ready) {
-      text("P2 Lives: " + hero2Lives, 500, 30);
+      // text("P2 Lives: " + hero2Lives, 500, 30);
     }
     popStyle();
     textFont(defaultFont);
@@ -202,7 +202,9 @@ void kinectDraw() {
 
   IntVector userList = new IntVector();
   kinect.getUsers(userList);
-
+  
+// disabling 2nd player detection for now until base 1p game is smoothed out  
+/*
   if (userList.size() > 1) {
     int user1 = userList.get(0);
     int user2 = userList.get(1);
@@ -216,6 +218,15 @@ void kinectDraw() {
     }
   }
   else if (userList.size() > 0) {
+    int userId = userList.get(0);
+    if (kinect.isTrackingSkeleton(userId)) {
+      hero.drawSkeleton(userId);
+      p1ready = true;
+    }
+  }
+  */
+  
+  if (userList.size() > 0) {
     int userId = userList.get(0);
     if (kinect.isTrackingSkeleton(userId)) {
       hero.drawSkeleton(userId);
