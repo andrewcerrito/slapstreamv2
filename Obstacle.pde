@@ -6,6 +6,7 @@ class Obstacle {
   int w = (int) random(30, maxSize);
   float rad;
   float obstSpeed = 0;
+  float speedModifier = random(-2,2);
 
   Obstacle (int tx, float ty) {
     x = tx;
@@ -22,7 +23,7 @@ class Obstacle {
   void move() {
     obstSpeed = (float) millis()/11000; // make speed increase the longer the game goes on
     //println(obstSpeed);
-    y= y + 4 + obstSpeed; // move down the screen
+    y= y + 4 + obstSpeed + speedModifier; // move down the screen
     if (y >= height + rad) { // if circle leaves bottom of screen:
       y = (int) -rad; // reset to top of screen
       x = (int) random(0, 600); // get a new random width - SET TO 600 FOR NOW, CHANGE BACK LATER

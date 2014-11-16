@@ -21,7 +21,6 @@ Star[] stars;
 // For the star movement:
 PVector offset;
 
-// These probably shouldn't be global but they're going to be
 float leftHandMagnitude, rightHandMagnitude;
 
 int heroLives = 5;
@@ -48,7 +47,6 @@ int frameCounter = 0;
 void setup() {
   size((600+640), 850);
   smooth();
-  randX = (int) random(0, 600); // SET TO 600 - CHANGE BACK LATER
   background(c1);
   psipose = loadImage("Psiyellow.png");
   pixelFont = createFont("C64Pro-Style", 24, true);
@@ -60,6 +58,7 @@ void setup() {
   hero2 = new Hero(600/2 + 50, height-80, 70, blue);
 
   for (int i =0; i < 5; i++) {
+    int randX = (int) random (0,600);
     Obstacle obst = new Obstacle(randX, 10);
     obstacles.add(obst);
   }
@@ -105,9 +104,8 @@ void draw() {
       text("1 player detected - starting game shortly", 165, height-50);
       popStyle();
       frameCounter++;
-      println(frameCounter);
     }
-    if (frameCounter > 125) {
+    if (frameCounter > 100) {
       titleScreen = false;
     }
   }
