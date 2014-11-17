@@ -14,7 +14,7 @@ class Star {
     size = (int) random(1, 6);
 //    loc = new PVector(random(width * map(size, 1, 7, 7, 1)), random(height * map(size, 1, 7, 7, 1)));
     loc = new PVector(random(600 * map(size, 1, 7, 7, 1)), random(height * map(size, 1, 7, 7, 1)));
-    bright = (int) random(200, 255);
+    bright = (int) random(150, 215);
   }
 
   void display() {
@@ -36,6 +36,8 @@ class Star {
 
     //Display the point
     point(x, y);
+    //rectMode(CENTER);
+    //rect(x,y, size, size);
 
     popStyle();
   }

@@ -57,7 +57,7 @@ void setup() {
   defaultFont = createFont("SansSerif", 12, true);
 
   // define hero, obstacle, and stars
-  hero = new Hero(600/2, height-80, 70, green); //SET TO 600 - CHANGE BACK LATER
+  hero = new Hero(600/2, height-80, 85, green); //SET TO 600 - CHANGE BACK LATER
   hero2 = new Hero(600/2 + 50, height-80, 70, blue);
 
   // load ship image
@@ -215,8 +215,11 @@ void starField() {
 
 
 void kinectDraw() {
+  pushStyle();
   kinect.update();
-  //image(kinect.depthImage(), 600, 100);
+  imageMode(CORNER);
+  image(kinect.depthImage(), 600, 100);
+  popStyle();
 
   IntVector userList = new IntVector();
   kinect.getUsers(userList);
