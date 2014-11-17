@@ -17,6 +17,8 @@ Hero hero2;
 ArrayList<Obstacle> obstacles = new ArrayList();
 Star[] stars;
 
+PImage ship;
+
 
 // For the star movement:
 PVector offset;
@@ -52,13 +54,15 @@ void setup() {
   pixelFont = createFont("C64Pro-Style", 24, true);
   defaultFont = createFont("SansSerif", 12, true);
 
-
   // define hero, obstacle, and stars
   hero = new Hero(600/2, height-80, 70, green); //SET TO 600 - CHANGE BACK LATER
   hero2 = new Hero(600/2 + 50, height-80, 70, blue);
 
+  ship = loadImage("orangeship.png");
+  ship.resize(int(hero.w*1.4), int(hero.w*1.4));
+
   for (int i =0; i < 5; i++) {
-    int randX = (int) random (0,600);
+    int randX = (int) random (0, 600);
     Obstacle obst = new Obstacle(randX, 10);
     obstacles.add(obst);
   }
@@ -96,8 +100,7 @@ void draw() {
     // If no 2P detected, start game.
     if (p1ready && p2ready) {
       titleScreen = false;
-    }
-    else if (p1ready &! p2ready) {
+    } else if (p1ready &! p2ready) {
       pushStyle();
       fill(green);
       textFont(pixelFont, 18);
@@ -139,7 +142,7 @@ void draw() {
         hero2.moveCheck();
       }
 
-      for (int i = 0; i < obstacles.size(); i++) {
+      for (int i = 0; i < obstacles.size (); i++) {
         Obstacle obst = obstacles.get(i);
         obst.display();
         obst.move();
@@ -154,9 +157,7 @@ void draw() {
       }
 
       hero.speedVectorDraw(); // Visualize vectors onscreen for P1 only
-    } 
-
-    else {  // if zero lives remaining:
+    } else {  // if zero lives remaining:
       background(0);
       starField();
       fill(255, 255, 0);
@@ -200,30 +201,30 @@ void kinectDraw() {
 
   IntVector userList = new IntVector();
   kinect.getUsers(userList);
-  
-// disabling 2nd player detection for now until base 1p game is smoothed out  
-/*
+
+  // disabling 2nd player detection for now until base 1p game is smoothed out  
+  /*
   if (userList.size() > 1) {
-    int user1 = userList.get(0);
-    int user2 = userList.get(1);
-    if (kinect.isTrackingSkeleton(user1)) {
-      hero.drawSkeleton(user1);
-      p1ready = true;
-    }
-    if (kinect.isTrackingSkeleton(user2)) {
-      hero2.drawSkeleton(user2);
-      p2ready = true;
-    }
-  }
-  else if (userList.size() > 0) {
-    int userId = userList.get(0);
-    if (kinect.isTrackingSkeleton(userId)) {
-      hero.drawSkeleton(userId);
-      p1ready = true;
-    }
-  }
-  */
-  
+   int user1 = userList.get(0);
+   int user2 = userList.get(1);
+   if (kinect.isTrackingSkeleton(user1)) {
+   hero.drawSkeleton(user1);
+   p1ready = true;
+   }
+   if (kinect.isTrackingSkeleton(user2)) {
+   hero2.drawSkeleton(user2);
+   p2ready = true;
+   }
+   }
+   else if (userList.size() > 0) {
+   int userId = userList.get(0);
+   if (kinect.isTrackingSkeleton(userId)) {
+   hero.drawSkeleton(userId);
+   p1ready = true;
+   }
+   }
+   */
+
   if (userList.size() > 0) {
     int userId = userList.get(0);
     if (kinect.isTrackingSkeleton(userId)) {
@@ -248,8 +249,7 @@ void onEndCalibration(int userId, boolean successful) {
   if (successful) {
     println("User " + userId + " calibrated !!!");
     kinect.startTrackingSkeleton(userId);
-  }
-  else {
+  } else {
     println("  Failed to calibrate " + userId + " !!!");
     kinect.startPoseDetection("Psi", userId);
   }

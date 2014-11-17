@@ -30,9 +30,13 @@ class Hero {
   }
 
   void display() {
-    stroke(255);
-    fill(playerColor);
+    pushStyle();
+    noStroke();
+    noFill();
     ellipse(x, y, w, w);
+    imageMode(CENTER);
+    image(ship,x,y);
+    popStyle();
   }
 
 

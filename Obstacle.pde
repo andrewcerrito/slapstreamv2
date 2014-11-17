@@ -6,7 +6,7 @@ class Obstacle {
   int w = (int) random(30, maxSize);
   float rad;
   float obstSpeed = 0;
-  float speedModifier = random(-2,2);
+  float speedModifier = random(-2,2); // makes the obstacles fall at slightly different speed, less staggered
 
   Obstacle (int tx, float ty) {
     x = tx;
