@@ -1,5 +1,6 @@
 class Obstacle {
 
+  PImage[] asteroids;
   PImage currentGraphic;
   int maxSize = 150; //dictates maximum size of obstacle
   int x; 
@@ -15,10 +16,22 @@ class Obstacle {
     y = ty;
     rad = w/2;
   }
+  
+  void imageInit() {
+    asteroids = new PImage[7];
+  for (int i = 1; i < 8; i++) {
+      println("image " + i + " loaded.");
+      // Use nf() to number format 'i' into four digits
+      String filename = "asteroid_" + nf(i, 4) + ".png";
+      println(filename);
+      asteroids[i-1] = loadImage(filename);
+    }
+    
+  }
 
 void imageSelect() {
   if (graphicSelected == false) {
-  int imageSelector = (int)random(0,8);
+  int imageSelector = (int)random(1,8);
 //  pushStyle();
 //  imageMode(CENTER);
   switch(imageSelector) {
@@ -77,10 +90,10 @@ void imageSelect() {
   void move() {
     obstSpeed = (float) millis()/11000; // make speed increase the longer the game goes on
     //println(obstSpeed);
-    y= y + 4 + obstSpeed + speedModifier; // move down the screen
+    y= y + 3 + obstSpeed + speedModifier; // move down the screen
     if (y >= height + rad) { // if circle leaves bottom of screen:
       y = (int) -rad; // reset to top of screen
-      x = (int) random(0, 600); // get a new random width - SET TO 600 FOR NOW, CHANGE BACK LATER
+      x = (int) random(0, 600); // get a new random x-position - SET TO 600 FOR NOW, CHANGE BACK LATER
       w = (int) random(30, maxSize); // get a new random size
       graphicSelected = false; // get a new asteroid graphic
       imageSelect();

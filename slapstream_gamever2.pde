@@ -50,6 +50,7 @@ int frameCounter = 0;
 void setup() {
   size((600+640), 850);
   smooth();
+  frameRate(30);
   background(c1);
   psipose = loadImage("Psiyellow.png");
   pixelFont = createFont("C64Pro-Style", 24, true);
@@ -64,20 +65,23 @@ void setup() {
   ship.resize(int(hero.w*1.4), int(hero.w*1.4));
   
   // load asteroid images
-  asteroids = new PImage[7];
-  for (int i = 1; i < 8; i++) {
-      println("image " + i + " loaded.");
-      // Use nf() to number format 'i' into four digits
-      String filename = "asteroid_" + nf(i, 4) + ".png";
-      println(filename);
-      asteroids[i-1] = loadImage(filename);
-    }
+//  asteroids = new PImage[7];
+//  for (int i = 1; i < 8; i++) {
+//      println("image " + i + " loaded.");
+//      // Use nf() to number format 'i' into four digits
+//      String filename = "asteroid_" + nf(i, 4) + ".png";
+//      println(filename);
+//      asteroids[i-1] = loadImage(filename);
+//    }
 
+// create obstacles
   for (int i =0; i < 5; i++) {
     int randX = (int) random (0, 600);
     Obstacle obst = new Obstacle(randX, 10);
+    obst.imageInit();
     obst.imageSelect();
     obstacles.add(obst);
+    println("Obstacle " + i + " loaded");
   }
 
   stars = new Star[width];
@@ -136,10 +140,10 @@ void draw() {
     if (p2ready) {
       // text("P2 Lives: " + hero2Lives, 500, 30);
     }
-    popStyle();
-    textFont(defaultFont);
-    text (frameRate, width-60, height-60);
+    textFont(defaultFont, 36);
+    text (frameRate, width-90, height-90);
     //  text (topSpeed, width-60, height-100);
+     popStyle();
 
     // Right now, game is set to end if either player loses all lives. Change this later.
     if (heroLives > 0 && hero2Lives > 0) {
@@ -157,7 +161,6 @@ void draw() {
 
       for (int i = 0; i < obstacles.size(); i++) {
         Obstacle obst = obstacles.get(i);
-        // obst.imageSelect();
         obst.display();
         obst.move();
         hero.collideDetect(obst.x, obst.y, obst.rad);
