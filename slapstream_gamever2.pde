@@ -26,9 +26,7 @@ PVector offset;
 
 float leftHandMagnitude, rightHandMagnitude;
 
-int heroLives = 5;
-int hero2Lives = 5;
-int randX = 10;
+int heroLives, hero2Lives, randX;
 
 // Style-related variables
 color c1 = color(0, 0, 0);
@@ -38,23 +36,31 @@ PFont pixelFont;
 PFont defaultFont;
 PImage psipose;
 
-// Boolean relating to title screen, will turn false and start game when
-// Kinect detects user pose
-boolean titleScreen = true;
-boolean p1ready = false;    
-boolean p2ready = false;
+boolean titleScreen, p1ready, p2ready;
 
 //Frame counter to give a short delay after detecting 1P to detect 2P
-int frameCounter = 0;
+int frameCounter;
 
 void setup() {
   size((600+640), 850, P2D);
   //smooth();
   frameRate(30);
   background(c1);
+
+
+  //load assets & fonts
   psipose = loadImage("Psiyellow.png");
   pixelFont = createFont("C64Pro-Style", 24, true);
   defaultFont = createFont("SansSerif", 12, true);
+
+  // initialize variables in setup loop for easy restart (feature not implemented yet)
+  heroLives = 5;
+  hero2Lives = 5;
+  randX = 10;
+  titleScreen = true;
+  p1ready = false;
+  p2ready = false;
+  frameCounter = 0;
 
   // define hero, obstacle, and stars
   hero = new Hero(600/2, height-80, 85, green); //SET TO 600 - CHANGE BACK LATER
@@ -63,18 +69,9 @@ void setup() {
   // load ship image
   ship = loadImage("orangeship.png");
   ship.resize(int(hero.w*1.4), int(hero.w*1.4));
-  
-  // load asteroid images
-//  asteroids = new PImage[7];
-//  for (int i = 1; i < 8; i++) {
-//      println("image " + i + " loaded.");
-//      // Use nf() to number format 'i' into four digits
-//      String filename = "asteroid_" + nf(i, 4) + ".png";
-//      println(filename);
-//      asteroids[i-1] = loadImage(filename);
-//    }
 
-// create obstacles
+
+  // create obstacles
   for (int i =0; i < 5; i++) {
     int randX = (int) random (0, 600);
     Obstacle obst = new Obstacle(randX, 10);
@@ -92,6 +89,33 @@ void setup() {
   kinect = new SimpleOpenNI(this);
   kinect.enableDepth();
   kinect.enableUser(SimpleOpenNI.SKEL_PROFILE_ALL);
+}
+
+void restart() {
+  heroLives = 5;
+  hero2Lives = 5;
+  randX = 10;
+  titleScreen = true;
+  p1ready = false;
+  p2ready = false;
+  frameCounter = 0;
+
+  hero = new Hero(600/2, height-80, 85, green); //SET TO 600 - CHANGE BACK LATER
+  hero2 = new Hero(600/2 + 50, height-80, 70, blue);
+
+  // load ship image
+  ship = loadImage("orangeship.png");
+  ship.resize(int(hero.w*1.4), int(hero.w*1.4));
+
+  // reset obstacle parameters 
+  for (int i = 0; i < obstacles.size (); i++) {
+    Obstacle obst = obstacles.get(i);
+    obst.obstSpeed = 0;
+    obst.speedModifier = random(-2,2);
+  }
+  stars = new Star[width];
+  for (int i = 0; i < stars.length; i ++) stars[i] = new Star();
+  offset = new PVector(width / 2, height / 2);
 }
 
 void draw() {
@@ -143,7 +167,7 @@ void draw() {
     textFont(defaultFont, 36);
     text (frameRate, width-150, height-90);
     //  text (topSpeed, width-60, height-100);
-     popStyle();
+    popStyle();
 
     // Right now, game is set to end if either player loses all lives. Change this later.
     if (heroLives > 0 && hero2Lives > 0) {
@@ -159,7 +183,7 @@ void draw() {
         hero2.moveCheck();
       }
 
-      for (int i = 0; i < obstacles.size(); i++) {
+      for (int i = 0; i < obstacles.size (); i++) {
         Obstacle obst = obstacles.get(i);
         obst.display();
         obst.move();
@@ -180,6 +204,14 @@ void draw() {
       fill(255, 255, 0);
       textFont(pixelFont, 48);
       text("GAME OVER", 125, height/2);
+
+      IntVector userList = new IntVector();
+      kinect.getUsers(userList);
+      println(userList.size());
+
+      if (keyPressed && key == 'r') {
+        restart();
+      }
     }
   }
 }
