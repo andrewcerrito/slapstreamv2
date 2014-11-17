@@ -60,11 +60,9 @@ class Hero {
 
     stroke(0, 255, 0);
     line(0, 0, rhandvel.x, rhandvel.y);
-    text (rhandvel.mag(), 0, 40);
 
     stroke(255, 0, 0);
     line(0, 0, lhandvel.x, lhandvel.y);
-    text (lhandvel.mag(), 0, 30);
 
     popMatrix();
   }
@@ -76,15 +74,9 @@ class Hero {
   void moveCheck() {
     if (leftHandMagnitude <= 300 && x<=600) {
       x = (x +(lhandvel.mag()/3));
-      pushStyle();
-      textSize(65);
-      popStyle();
     }
     if (rightHandMagnitude <= 300 && x>=0) {
       x = int (x-(rhandvel.mag()/3));
-      pushStyle();
-      textSize(65);
-      popStyle();
     }
   }
 

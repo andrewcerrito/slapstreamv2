@@ -48,8 +48,8 @@ boolean p2ready = false;
 int frameCounter = 0;
 
 void setup() {
-  size((600+640), 850);
-  smooth();
+  size((600+640), 850, P2D);
+  //smooth();
   frameRate(30);
   background(c1);
   psipose = loadImage("Psiyellow.png");
@@ -141,7 +141,7 @@ void draw() {
       // text("P2 Lives: " + hero2Lives, 500, 30);
     }
     textFont(defaultFont, 36);
-    text (frameRate, width-90, height-90);
+    text (frameRate, width-150, height-90);
     //  text (topSpeed, width-60, height-100);
      popStyle();
 
@@ -212,9 +212,11 @@ void starField() {
 
 // ******** KINECT FUNCTIONS ********
 
+
+
 void kinectDraw() {
   kinect.update();
-  image(kinect.depthImage(), 600, 100);
+  //image(kinect.depthImage(), 600, 100);
 
   IntVector userList = new IntVector();
   kinect.getUsers(userList);

@@ -80,8 +80,11 @@ void imageSelect() {
 
 
   void display() {
-    fill(255, 0, 0, 100);
-    stroke(255);
+    pushStyle();
+    noFill();
+    noStroke();
+//    fill(255, 0, 0, 100);
+//    stroke(255);
     imageMode(CENTER);
     image(currentGraphic,x,y);
     ellipse(x, y, w, w);
