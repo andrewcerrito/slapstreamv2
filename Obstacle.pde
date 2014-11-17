@@ -25,37 +25,37 @@ void imageSelect() {
       case 1:
 //    image(asteroids[0], x, y);
       asteroids[0].resize(int(w*1.4),int(w*1.4));
-      currentGraphic = loadImage(asteroids[0]);
+      currentGraphic = asteroids[0];
       break;
       case 2:
 //      image(asteroids[1], x, y);
       asteroids[1].resize(int(w*1.3),int(w*1.3));
-      currentGraphic = loadImage(asteroids[1]);
+      currentGraphic = asteroids[1];
       break;
       case 3:
 //      image(asteroids[2], x, y);
       asteroids[2].resize(int(w*1.1),int(w*1.1));
-      currentGraphic = loadImage(asteroids[2]);
+      currentGraphic = asteroids[2];
       break;
       case 4:
 //      image(asteroids[3], x, y);
       asteroids[3].resize(int(w*1.1),int(w*1.1));
-      currentGraphic = loadImage(asteroids[3]);
+      currentGraphic = asteroids[3];
       break;
       case 5:
 //      image(asteroids[4], x, y);
       asteroids[4].resize(int(w*1.2),int(w*1.2));
-      currentGraphic = loadImage(asteroids[4]);
+      currentGraphic = asteroids[4];
       break;
       case 6:
 //      image(asteroids[5], x, y);
       asteroids[5].resize(int(w*1.1),int(w*1.1));
-      currentGraphic = loadImage(asteroids[5]);
+      currentGraphic = asteroids[5];
       break;
       case 7:
 //      image(asteroids[6], x, y);
       asteroids[6].resize(int(w*1.1),int(w*1.1));
-      currentGraphic = loadImage(asteroids[6]);
+      currentGraphic = asteroids[6];
       break;
     }   
   }
@@ -83,6 +83,7 @@ void imageSelect() {
       x = (int) random(0, 600); // get a new random width - SET TO 600 FOR NOW, CHANGE BACK LATER
       w = (int) random(30, maxSize); // get a new random size
       graphicSelected = false; // get a new asteroid graphic
+      imageSelect();
       rad = w/2; // correct the radius variable with the new width
     }
   }

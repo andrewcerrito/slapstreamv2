@@ -157,7 +157,7 @@ void draw() {
 
       for (int i = 0; i < obstacles.size(); i++) {
         Obstacle obst = obstacles.get(i);
-        obst.imageSelect();
+        // obst.imageSelect();
         obst.display();
         obst.move();
         hero.collideDetect(obst.x, obst.y, obst.rad);
