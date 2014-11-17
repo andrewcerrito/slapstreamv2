@@ -18,6 +18,7 @@ ArrayList<Obstacle> obstacles = new ArrayList();
 Star[] stars;
 
 PImage ship;
+PImage[] asteroids;
 
 
 // For the star movement:
@@ -58,12 +59,24 @@ void setup() {
   hero = new Hero(600/2, height-80, 70, green); //SET TO 600 - CHANGE BACK LATER
   hero2 = new Hero(600/2 + 50, height-80, 70, blue);
 
+  // load ship image
   ship = loadImage("orangeship.png");
   ship.resize(int(hero.w*1.4), int(hero.w*1.4));
+  
+  // load asteroid images
+  asteroids = new PImage[7];
+  for (int i = 1; i < 8; i++) {
+      println("image " + i + " loaded.");
+      // Use nf() to number format 'i' into four digits
+      String filename = "asteroid_" + nf(i, 4) + ".png";
+      println(filename);
+      asteroids[i-1] = loadImage(filename);
+    }
 
   for (int i =0; i < 5; i++) {
     int randX = (int) random (0, 600);
     Obstacle obst = new Obstacle(randX, 10);
+    obst.imageSelect();
     obstacles.add(obst);
   }
 
@@ -142,8 +155,9 @@ void draw() {
         hero2.moveCheck();
       }
 
-      for (int i = 0; i < obstacles.size (); i++) {
+      for (int i = 0; i < obstacles.size(); i++) {
         Obstacle obst = obstacles.get(i);
+        obst.imageSelect();
         obst.display();
         obst.move();
         hero.collideDetect(obst.x, obst.y, obst.rad);
