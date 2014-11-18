@@ -36,7 +36,7 @@ PFont pixelFont;
 PFont defaultFont;
 PImage psipose;
 
-boolean titleScreen, p1ready, p2ready;
+boolean titleScreen, p1ready, p2ready, restartOK;
 
 //Frame counter to give a short delay after detecting 1P to detect 2P
 int frameCounter;
@@ -60,6 +60,7 @@ void setup() {
   titleScreen = true;
   p1ready = false;
   p2ready = false;
+  restartOK = false;
   frameCounter = 0;
 
   // define hero, obstacle, and stars
@@ -98,6 +99,7 @@ void restart() {
   titleScreen = true;
   p1ready = false;
   p2ready = false;
+  restartOK = false;
   frameCounter = 0;
 
   hero = new Hero(600/2, height-80, 85, green); //SET TO 600 - CHANGE BACK LATER
@@ -199,21 +201,22 @@ void draw() {
 
       hero.speedVectorDraw(); // Visualize vectors onscreen for P1 only
     } else {  // if zero lives remaining:
+      kinectDraw();
       background(0);
       starField();
       fill(255, 255, 0);
       textFont(pixelFont, 48);
       text("GAME OVER", 125, height/2);
 
-      IntVector userList = new IntVector();
-      kinect.getUsers(userList);
-      println(userList.size());
+      //IntVector userList = new IntVector();rr
+      //kinect.getUsers(userList);
+      //println(userList.size());
 
       if (keyPressed && key == 'r') {
         restart();
       }
     }
-  }
+  }r
 }
 
 
@@ -313,5 +316,12 @@ void onStartPose(String pose, int userId) {
   println("Started pose for user " + userId);
   kinect.stopPoseDetection(userId);
   kinect.requestCalibrationSkeleton(userId, true);
+}
+
+void onLostUser(int userId)
+{
+  println("User Lost - userId: " + userId);
+  println("RESTART OK");
+  restartOK = true;
 }
 
