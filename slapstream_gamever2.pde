@@ -28,6 +28,9 @@ float leftHandMagnitude, rightHandMagnitude;
 
 int heroLives, hero2Lives, randX;
 
+// time when last game ended - used for asteroid speed calculation
+long millisSinceGameEnd = 0;
+
 // Style-related variables
 color c1 = color(0, 0, 0);
 color green = color(0, 255, 0);
@@ -112,6 +115,7 @@ void restart() {
   // reset obstacle parameters 
   for (int i = 0; i < obstacles.size (); i++) {
     Obstacle obst = obstacles.get(i);
+    obst.y = -obst.rad;
     obst.obstSpeed = 0;
     obst.speedModifier = random(-2,2);
   }
@@ -152,7 +156,7 @@ void draw() {
       pushStyle();
       fill(green);
       textAlign(CENTER);
-      textFont(pixelFont, 18);
+      textFont(pixelFont, 20);
       text("Player detected - beginning game...", 300, height-50);
       popStyle();
       frameCounter++;
@@ -210,16 +214,22 @@ void draw() {
       kinectDraw();
       background(0);
       starField();
+      pushStyle();
       fill(255, 255, 0);
       textFont(pixelFont, 48);
-      text("GAME OVER", 125, height/2);
-      textFont(pixelFont, 24);
+      textAlign(CENTER);
+      text("GAME OVER", 300, height/2);
+      textFont(pixelFont, 20);
+      text("Please clear the game area", 300, height/2+100);
+      text("to allow the Kinect to recalibrate.", 300, height/2+150);
+      popStyle();
 
       //IntVector userList = new IntVector();rr
       //kinect.getUsers(userList);
       //println(userList.size());
 
-      if (keyPressed && key == 'r') {
+      if (restartOK) {
+        millisSinceGameEnd = millis();
         restart();
       }
     }
@@ -329,6 +339,8 @@ void onLostUser(int userId)
 {
   println("User Lost - userId: " + userId);
   println("RESTART OK");
+  if (!titleScreen) {
   restartOK = true;
+  }
 }
 

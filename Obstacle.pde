@@ -91,7 +91,7 @@ void imageSelect() {
   }
 
   void move() {
-    obstSpeed = (float) millis()/11000; // make speed increase the longer the game goes on
+    obstSpeed = (float) (millis()-millisSinceGameEnd)/11000; // make speed increase the longer the game goes on
     //println(obstSpeed);
     y= y + 3 + obstSpeed + speedModifier; // move down the screen
     if (y >= height + rad) { // if circle leaves bottom of screen:
