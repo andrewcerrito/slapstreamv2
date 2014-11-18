@@ -74,11 +74,11 @@ class Hero {
   // change x >,< direction and +,- operator for non-inverted
   void moveCheck() {
     if (leftHandMagnitude <= 300 && x<=600) {
-      leftMeter.updatePower(leftHandMagnitude);
+      leftMeter.updatePower(lhandvel.mag());
       x = (x +(lhandvel.mag()/3));
     }
     if (rightHandMagnitude <= 300 && x>=0) {
-      rightMeter.updatePower(rightHandMagnitude);
+      rightMeter.updatePower(rhandvel.mag());
       x = int (x-(rhandvel.mag()/3));
     }
   }
@@ -130,11 +130,14 @@ class Hero {
     kinect.drawLimb(userId, SimpleOpenNI.SKEL_HEAD, SimpleOpenNI.SKEL_LEFT_HAND);
 
     // display info onscreen for testing
-    pushMatrix();
-    fill(255, 0, 0);
-    text("left: " + leftHandMagnitude, 10, height-200);
-    text("right: " + rightHandMagnitude, width-200, height-200);
-    popMatrix();
+//    pushMatrix();
+//    pushStyle();
+//    fill(255, 0, 0);
+//    textFont(pixelFont, 18);
+//    text("left: " + lhandvel.mag(), 10, height-200);
+//    text("right: " + rhandvel.mag(), 400, height-200);
+//    popMatrix();
+//    popStyle();
   }
 }
 

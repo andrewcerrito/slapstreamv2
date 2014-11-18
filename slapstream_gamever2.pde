@@ -4,10 +4,7 @@
 // http://www.openprocessing.org/sketch/63495
 // Kinect code adapted from examples from Making Things See by Greg Borenstein
 // Thanks to:
-// Dan Shiffman, who helped me rework some code into cleaner, more usable code
-// Mark Kleback, for helping me with array lists
-// Genevieve Hoffman, for trying to help me with the lives issue
-// Ben Smith, for helping me finally solve the lives thing
+// Dan Shiffman, Mark Kleback, Genevieve Hoffman, Ben Smith
 
 import SimpleOpenNI.*;
 SimpleOpenNI kinect;
@@ -47,7 +44,7 @@ boolean titleScreen, p1ready, p2ready, restartOK;
 int frameCounter;
 
 void setup() {
-  size((600+640), 850, P2D);
+  size((600+450), 850, P2D);
   //smooth();
   frameRate(30);
   background(c1);
@@ -77,8 +74,8 @@ void setup() {
   ship.resize(int(hero.w*1.4), int(hero.w*1.4));
   
   // load slap power meters
-  leftMeter = new Meter(700, 200, 50, 400, "Left Hand");
-  rightMeter = new Meter(900, 200, 50, 400, "Right Hand");
+  leftMeter = new Meter(700, 250, 50, 400, "Left Hand", "left");
+  rightMeter = new Meter(875, 250, 50, 400, "Right Hand", "right");
   
 
 
@@ -135,7 +132,7 @@ void draw() {
   pushStyle();
 //  background(c1);
   noStroke();
-  fill(0);
+  fill(c1);
   rect(0,0,600,850);
   c1 = color(0, 0, 0);
   starField();
@@ -191,7 +188,7 @@ void draw() {
       // text("P2 Lives: " + hero2Lives, 500, 30);
     }
     textFont(defaultFont, 36);
-    text (frameRate, width-150, height-90);
+//    text (frameRate, width-150, height-90);
     //  text (topSpeed, width-60, height-100);
     popStyle();
 
@@ -222,9 +219,10 @@ void draw() {
       if (obstacles.size() > 20) {
         obstacles.remove(0);
       }
-
-      hero.speedVectorDraw(); // Visualize vectors onscreen for P1 only
-    } else {  // if zero lives remaining:
+      // FOR DEBUG - visualize speed vectors onscreen for P1
+//      hero.speedVectorDraw(); 
+    
+  } else {  // if zero lives remaining:
       kinectDraw();
       background(0);
       starField();
