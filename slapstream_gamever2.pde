@@ -16,6 +16,8 @@ Hero hero;
 Hero hero2;
 ArrayList<Obstacle> obstacles = new ArrayList();
 Star[] stars;
+Meter leftMeter;
+Meter rightMeter;
 
 PImage ship;
 PImage[] asteroids;
@@ -73,6 +75,11 @@ void setup() {
   // load ship image
   ship = loadImage("orangeship.png");
   ship.resize(int(hero.w*1.4), int(hero.w*1.4));
+  
+  // load slap power meters
+  leftMeter = new Meter(700, 200, 50, 400, "Left Hand");
+  rightMeter = new Meter(900, 200, 50, 400, "Right Hand");
+  
 
 
   // create obstacles
@@ -125,9 +132,16 @@ void restart() {
 }
 
 void draw() {
-  background(c1);
+  pushStyle();
+//  background(c1);
+  noStroke();
+  fill(0);
+  rect(0,0,600,850);
   c1 = color(0, 0, 0);
   starField();
+  leftMeter.display();
+  rightMeter.display();
+  popStyle();
 
   // displays title screen until user does Psi pose
   if (titleScreen) {

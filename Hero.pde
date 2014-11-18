@@ -19,7 +19,8 @@ class Hero {
   PVector lhandvel = new PVector(0, 0);
 
 
-
+  Hero () {
+  } // default constructor needed for inheritance
 
   Hero (float tx, float ty, float tw, color tplayerColor) {
     x = tx;
@@ -35,7 +36,7 @@ class Hero {
     noFill();
     ellipse(x, y, w, w);
     imageMode(CENTER);
-    image(ship,x,y);
+    image(ship, x, y);
     popStyle();
   }
 
@@ -73,9 +74,11 @@ class Hero {
   // change x >,< direction and +,- operator for non-inverted
   void moveCheck() {
     if (leftHandMagnitude <= 300 && x<=600) {
+      leftMeter.updatePower(leftHandMagnitude);
       x = (x +(lhandvel.mag()/3));
     }
     if (rightHandMagnitude <= 300 && x>=0) {
+      rightMeter.updatePower(rightHandMagnitude);
       x = int (x-(rhandvel.mag()/3));
     }
   }
