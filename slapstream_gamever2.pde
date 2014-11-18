@@ -131,11 +131,16 @@ void draw() {
     pushStyle();
     fill(255, 255, 0);
     textFont(pixelFont, 60);
-    text("Slapstream", 40, height/2-150);
+    textAlign(CENTER);
+    text("Slapstream", 300, height/2-150);
+    textFont(pixelFont, 24);
+    text("Match this pose to begin:", 300, height/2);
+    PImage depth = kinect.depthImage();
+    PImage depth2 = depth.get();
+    depth2.resize(int(640*.48),int(480*.48));
     imageMode(CENTER);
-    textFont(pixelFont, 18);
-    text("Do this pose to begin:", 165, height/2);
-    image(psipose, width/4, (height/2+150));
+    image(depth2, 410, height/2+150);
+    image(psipose, 115, (height/2+150));
     popStyle();
 
     // If both players detected, start game immediately.
@@ -146,8 +151,9 @@ void draw() {
     } else if (p1ready &! p2ready) {
       pushStyle();
       fill(green);
+      textAlign(CENTER);
       textFont(pixelFont, 18);
-      text("1 player detected - starting game shortly", 165, height-50);
+      text("Player detected - beginning game...", 300, height-50);
       popStyle();
       frameCounter++;
     }
@@ -207,6 +213,7 @@ void draw() {
       fill(255, 255, 0);
       textFont(pixelFont, 48);
       text("GAME OVER", 125, height/2);
+      textFont(pixelFont, 24);
 
       //IntVector userList = new IntVector();rr
       //kinect.getUsers(userList);
@@ -216,7 +223,7 @@ void draw() {
         restart();
       }
     }
-  }r
+  }
 }
 
 
@@ -253,7 +260,7 @@ void kinectDraw() {
   pushStyle();
   kinect.update();
   imageMode(CORNER);
-  image(kinect.depthImage(), 600, 100);
+  //image(kinect.depthImage(), 600, 100);
   popStyle();
 
   IntVector userList = new IntVector();
