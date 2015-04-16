@@ -9,7 +9,7 @@
 import SimpleOpenNI.*;
 SimpleOpenNI kinect;
 
-//debug mode switch - keyboard controls
+//debug mode switch - keyboard controls & console debugging info
 boolean debugMode = true;
 
 Hero hero;
@@ -145,6 +145,7 @@ void draw() {
 
   // displays title screen until user does Psi pose
   if (titleScreen) {
+    millisSinceGameEnd = millis(); // don't keep game time until game actually starts (for increased asteroid speed as game progresses)
     kinectDraw();
     pushStyle();
     fill(255, 255, 0);
@@ -244,7 +245,7 @@ void draw() {
       //println(userList.size());
 
       if (restartOK) {
-        millisSinceGameEnd = millis();
+        // millisSinceGameEnd = millis();
         restart();
       }
     }
