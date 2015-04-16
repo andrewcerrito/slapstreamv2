@@ -86,7 +86,6 @@ class Obstacle {
 
   void move() {
     obstSpeed = (float) (millis()-millisSinceGameEnd)/9000; // make speed increase the longer the game goes on
-    //println(obstSpeed);
     y= y + 3 + obstSpeed + speedModifier; // move down the screen
     if (y >= height + rad) { // if circle leaves bottom of screen:
       y = (int) -rad; // reset to top of screen
@@ -95,20 +94,8 @@ class Obstacle {
       graphicSelected = false; // get a new asteroid graphic
       imageSelect();
       rad = w/2; // correct the radius variable with the new width
+      if (debugMode) println(obstSpeed); // debug for asteroid speed - remove later
     }
   }
-
-  // Moved collision detection to hero class - kept this here for reference
-
-  //  void collideDetect (float heroX, float heroY, float heroRad) {
-  //    float distFromHero = dist(x, y, heroX, heroY);
-  //    if (distFromHero < rad + heroRad) {
-  //      c1 = color(0, 0, 255);
-  ////      println("Hit!");
-  //    } 
-  //    else {
-  //      c1 = color(0, 0, 0);
-  //    }
-  //  }
 }
 

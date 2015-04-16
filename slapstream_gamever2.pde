@@ -9,6 +9,9 @@
 import SimpleOpenNI.*;
 SimpleOpenNI kinect;
 
+//debug mode switch - keyboard controls
+boolean debugMode = true;
+
 Hero hero;
 Hero hero2;
 ArrayList<Obstacle> obstacles = new ArrayList();

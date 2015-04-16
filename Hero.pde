@@ -73,6 +73,7 @@ class Hero {
   // inverted movement enabled: 
   // change x >,< direction and +,- operator for non-inverted
   void moveCheck() {
+    
     if (leftHandMagnitude <= 300 && x<=600) {
       leftMeter.updatePower(lhandvel.mag());
       x = (x +(lhandvel.mag()/3));
@@ -81,6 +82,14 @@ class Hero {
       rightMeter.updatePower(rhandvel.mag());
       x = int (x-(rhandvel.mag()/3));
     }
+    // debug mode - keyboard controls so i don't have to slap myself during testing
+    if (debugMode) {
+      if (keyPressed) {
+        if (key == 'k' || key == 'K') x -= 10;
+        if (key == 'l' || key =='L') x += 10;
+      }
+    }
+    
   }
 
   void collideDetect (float obstX, float obstY, float obstRad) {
