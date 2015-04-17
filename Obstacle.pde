@@ -2,7 +2,7 @@ class Obstacle {
 
   PImage[] asteroids;
   PImage currentGraphic;
-  int maxSize = 150; //dictates maximum size of obstacle
+  int maxSize = 150; // dictates maximum size of obstacle
   int x; 
   float y;
   int w = (int) random(30, maxSize);
@@ -94,7 +94,6 @@ class Obstacle {
       graphicSelected = false; // get a new asteroid graphic
       imageSelect();
       rad = w/2; // correct the radius variable with the new width
-      if (debugMode) println(obstSpeed); // debug for asteroid speed - remove later
     }
   }
   

@@ -73,7 +73,7 @@ class Hero {
   // inverted movement enabled: 
   // change x >,< direction and +,- operator for non-inverted
   void moveCheck() {
-    
+
     if (leftHandMagnitude <= 300 && x<=600) {
       leftMeter.updatePower(lhandvel.mag());
       x = (x +(lhandvel.mag()/3));
@@ -89,7 +89,6 @@ class Hero {
         if (key == 'l' || key =='L') x += 10;
       }
     }
-    
   }
 
   void collideDetect (float obstX, float obstY, float obstRad) {
@@ -139,14 +138,16 @@ class Hero {
     kinect.drawLimb(userId, SimpleOpenNI.SKEL_HEAD, SimpleOpenNI.SKEL_LEFT_HAND);
 
     // display info onscreen for testing
-    pushMatrix();
-    pushStyle();
-    fill(255, 0, 0);
-    textFont(pixelFont, 18);
-    text("left: " + lhandvel.mag(), 10, height-200);
-    text("right: " + rhandvel.mag(), 400, height-200);
-    popMatrix();
-    popStyle();
+    if (debugMode) {
+      pushMatrix();
+      pushStyle();
+      fill(255, 0, 0);
+      textFont(pixelFont, 18);
+      text("left: " + lhandvel.mag(), 10, height-200);
+      text("right: " + rhandvel.mag(), 400, height-200);
+      popMatrix();
+      popStyle();
+    }
   }
 }
 

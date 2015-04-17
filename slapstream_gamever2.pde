@@ -255,10 +255,12 @@ void draw() {
       textAlign(CENTER);
       text("GAME OVER", 300, height/2);
       textFont(pixelFont, 20);
-      text("Your Score: " + gameScore, 300, 100);
-      text("Today's High Score: " + highScore, 300, 150);
-      text("Your Player Rank: " + scoreRank + " out of " + totalScores, 300, 200);
-        text("Please clear the game area", 300, height/2+100);
+      fill(0,255,0);
+      text("Your Score: " + gameScore, 300, 50);
+      text("Today's High Score: " + highScore, 300, 100);
+      text("Your Player Rank: " + scoreRank + " out of " + totalScores, 300, 150);
+      fill(255,255,0);
+      text("Please clear the game area", 300, height/2+100);
       text("to allow the Kinect to recalibrate.", 300, height/2+150);
       popStyle();
 
