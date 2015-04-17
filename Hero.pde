@@ -139,14 +139,14 @@ class Hero {
     kinect.drawLimb(userId, SimpleOpenNI.SKEL_HEAD, SimpleOpenNI.SKEL_LEFT_HAND);
 
     // display info onscreen for testing
-//    pushMatrix();
-//    pushStyle();
-//    fill(255, 0, 0);
-//    textFont(pixelFont, 18);
-//    text("left: " + lhandvel.mag(), 10, height-200);
-//    text("right: " + rhandvel.mag(), 400, height-200);
-//    popMatrix();
-//    popStyle();
+    pushMatrix();
+    pushStyle();
+    fill(255, 0, 0);
+    textFont(pixelFont, 18);
+    text("left: " + lhandvel.mag(), 10, height-200);
+    text("right: " + rhandvel.mag(), 400, height-200);
+    popMatrix();
+    popStyle();
   }
 }
 

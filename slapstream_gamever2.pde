@@ -10,7 +10,7 @@ import SimpleOpenNI.*;
 SimpleOpenNI kinect;
 
 //debug mode switch - keyboard controls & console debugging info
-boolean debugMode = true;
+boolean debugMode = false;
 
 Hero hero;
 Hero hero2;
@@ -58,8 +58,9 @@ void setup() {
   pixelFont = createFont("C64Pro-Style", 24, true);
   defaultFont = createFont("SansSerif", 12, true);
 
-  // initialize variables in setup loop for easy restart (feature not implemented yet)
-  heroLives = 5;
+  // SO MANY LIVES - change this back after testing.
+  heroLives = 10000;
+  
   hero2Lives = 5;
   randX = 10;
   titleScreen = true;
