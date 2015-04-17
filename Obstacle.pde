@@ -82,6 +82,7 @@ class Obstacle {
     imageMode(CENTER);
     image(currentGraphic, x, y);
     ellipse(x, y, w, w);
+    popStyle();
   }
 
   void move() {

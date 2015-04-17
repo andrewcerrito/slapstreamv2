@@ -195,17 +195,7 @@ void draw() {
 
   // if user poses, game begins
   if (!titleScreen) {
-    fill(255);
-    pushStyle();
-    textFont(pixelFont, 24); 
-    text("Lives: " + heroLives, 10, 30);
-    if (p2ready) {
-      // text("P2 Lives: " + hero2Lives, 500, 30);
-    }
-    textFont(defaultFont, 36);
-    //    text (frameRate, width-150, height-90);
-    //  text (topSpeed, width-60, height-100);
-    popStyle();
+
 
     // Right now, game is set to end if either player loses all lives. Change this later.
     if (heroLives > 0 && hero2Lives > 0) {
@@ -235,10 +225,28 @@ void draw() {
         obstacles.remove(0);
       }
 
+      // update the game's score
       updateScore();
+
+      // draw onscreen info last so it can't get covered by falling obstacles
+      fill(255);
+      pushStyle();
+      textFont(pixelFont, 24); 
+      text("Lives: " + heroLives, 10, 30);
+      if (p2ready) {
+        // text("P2 Lives: " + hero2Lives, 500, 30);
+      }
+      textAlign(RIGHT);
+      text("Score: " + gameScore, 590, 30);
+      textFont(defaultFont, 36);
+      //    text (frameRate, width-150, height-90);
+      //  text (topSpeed, width-60, height-100);
+      popStyle();
 
       // FOR DEBUG - visualize speed vectors onscreen for P1
       //      hero.speedVectorDraw();
+      
+      
     } else {  // if zero lives remaining:
 
       if (!scoreLogged) {
@@ -255,11 +263,11 @@ void draw() {
       textAlign(CENTER);
       text("GAME OVER", 300, height/2);
       textFont(pixelFont, 20);
-      fill(0,255,0);
+      fill(0, 255, 0);
       text("Your Score: " + gameScore, 300, 50);
       text("Today's High Score: " + highScore, 300, 100);
       text("Your Player Rank: " + scoreRank + " out of " + totalScores, 300, 150);
-      fill(255,255,0);
+      fill(255, 255, 0);
       text("Please clear the game area", 300, height/2+100);
       text("to allow the Kinect to recalibrate.", 300, height/2+150);
       popStyle();
