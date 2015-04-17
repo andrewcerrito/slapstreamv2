@@ -12,6 +12,10 @@ SimpleOpenNI kinect;
 //debug mode switch - keyboard controls & console debugging info
 boolean debugMode = false;
 
+//Table for recording and reading high scores
+Table scoreTable;
+int gameScore = 0;
+
 Hero hero;
 Hero hero2;
 ArrayList<Obstacle> obstacles = new ArrayList();
@@ -51,6 +55,9 @@ void setup() {
   //smooth();
   frameRate(30);
   background(c1);
+  
+  scoreTable = loadTable("data/scoretable.csv", "header");
+  scoreTable.setColumnType("scorelist", Table.INT);
 
 
   //load assets & fonts
@@ -58,8 +65,7 @@ void setup() {
   pixelFont = createFont("C64Pro-Style", 24, true);
   defaultFont = createFont("SansSerif", 12, true);
 
-  // SO MANY LIVES - change this back after testing.
-  heroLives = 10000;
+  heroLives = 5;
   
   hero2Lives = 5;
   randX = 10;
@@ -146,7 +152,8 @@ void draw() {
 
   // displays title screen until user does Psi pose
   if (titleScreen) {
-    millisSinceGameEnd = millis(); // don't keep game time until game actually starts (for increased asteroid speed as game progresses)
+    millisSinceGameEnd = millis(); // don't keep elapsed game time until game starts
+    gameScore = 0; // don't keep score until game starts
     kinectDraw();
     pushStyle();
     fill(255, 255, 0);
@@ -224,6 +231,9 @@ void draw() {
       if (obstacles.size() > 20) {
         obstacles.remove(0);
       }
+      
+      updateScore();
+      
       // FOR DEBUG - visualize speed vectors onscreen for P1
 //      hero.speedVectorDraw(); 
     
@@ -325,8 +335,12 @@ void kinectDraw() {
   }
 }
 
-
-
+// ******** GETTING SCORES **********
+void updateScore() {
+  gameScore += (int) ((millis()-millisSinceGameEnd)/900)*heroLives;
+  println(gameScore);
+  
+}
 
 
 // ******** KINECT USER TRACKING FUNCTIONS ********

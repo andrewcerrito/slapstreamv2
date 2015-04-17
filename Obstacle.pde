@@ -97,5 +97,6 @@ class Obstacle {
       if (debugMode) println(obstSpeed); // debug for asteroid speed - remove later
     }
   }
+  
 }
 
