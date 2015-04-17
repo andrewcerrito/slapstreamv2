@@ -13,8 +13,10 @@ SimpleOpenNI kinect;
 boolean debugMode = false;
 
 //Table for recording and reading high scores
+boolean scoreLogged = false;
 Table scoreTable;
 int gameScore = 0;
+int highScore, scoreRank, totalScores;
 
 Hero hero;
 Hero hero2;
@@ -55,7 +57,7 @@ void setup() {
   //smooth();
   frameRate(30);
   background(c1);
-  
+
   scoreTable = loadTable("data/scoretable.csv", "header");
   scoreTable.setColumnType("scorelist", Table.INT);
 
@@ -66,7 +68,7 @@ void setup() {
   defaultFont = createFont("SansSerif", 12, true);
 
   heroLives = 5;
-  
+
   hero2Lives = 5;
   randX = 10;
   titleScreen = true;
@@ -82,11 +84,11 @@ void setup() {
   // load ship image
   ship = loadImage("orangeship.png");
   ship.resize(int(hero.w*1.4), int(hero.w*1.4));
-  
+
   // load slap power meters
   leftMeter = new Meter(700, 250, 50, 400, "Left Hand", "left");
   rightMeter = new Meter(875, 250, 50, 400, "Right Hand", "right");
-  
+
 
 
   // create obstacles
@@ -131,7 +133,7 @@ void restart() {
     Obstacle obst = obstacles.get(i);
     obst.y = -obst.rad;
     obst.obstSpeed = 0;
-    obst.speedModifier = random(-2,2);
+    obst.speedModifier = random(-2, 2);
   }
   stars = new Star[width];
   for (int i = 0; i < stars.length; i ++) stars[i] = new Star();
@@ -140,10 +142,10 @@ void restart() {
 
 void draw() {
   pushStyle();
-//  background(c1);
+  //  background(c1);
   noStroke();
   fill(c1);
-  rect(0,0,600,850);
+  rect(0, 0, 600, 850);
   c1 = color(0, 0, 0);
   starField();
   leftMeter.display();
@@ -154,6 +156,7 @@ void draw() {
   if (titleScreen) {
     millisSinceGameEnd = millis(); // don't keep elapsed game time until game starts
     gameScore = 0; // don't keep score until game starts
+    scoreLogged = false;
     kinectDraw();
     pushStyle();
     fill(255, 255, 0);
@@ -164,7 +167,7 @@ void draw() {
     text("Match this pose to begin:", 300, height/2);
     PImage depth = kinect.depthImage();
     PImage depth2 = depth.get();
-    depth2.resize(int(640*.48),int(480*.48));
+    depth2.resize(int(640*.48), int(480*.48));
     imageMode(CENTER);
     image(depth2, 410, height/2+150);
     image(psipose, 115, (height/2+150));
@@ -200,7 +203,7 @@ void draw() {
       // text("P2 Lives: " + hero2Lives, 500, 30);
     }
     textFont(defaultFont, 36);
-//    text (frameRate, width-150, height-90);
+    //    text (frameRate, width-150, height-90);
     //  text (topSpeed, width-60, height-100);
     popStyle();
 
@@ -231,13 +234,18 @@ void draw() {
       if (obstacles.size() > 20) {
         obstacles.remove(0);
       }
-      
+
       updateScore();
-      
+
       // FOR DEBUG - visualize speed vectors onscreen for P1
-//      hero.speedVectorDraw(); 
-    
-  } else {  // if zero lives remaining:
+      //      hero.speedVectorDraw();
+    } else {  // if zero lives remaining:
+
+      if (!scoreLogged) {
+        logScore(gameScore);
+        endgameScoreInfo(gameScore);
+        scoreLogged = true;
+      }
       kinectDraw();
       background(0);
       starField();
@@ -247,9 +255,13 @@ void draw() {
       textAlign(CENTER);
       text("GAME OVER", 300, height/2);
       textFont(pixelFont, 20);
-      text("Please clear the game area", 300, height/2+100);
+      text("Your Score: " + gameScore, 300, 100);
+      text("Today's High Score: " + highScore, 300, 150);
+      text("Your Player Rank: " + scoreRank + " out of " + totalScores, 300, 200);
+        text("Please clear the game area", 300, height/2+100);
       text("to allow the Kinect to recalibrate.", 300, height/2+150);
       popStyle();
+
 
       //IntVector userList = new IntVector();rr
       //kinect.getUsers(userList);
@@ -338,8 +350,30 @@ void kinectDraw() {
 // ******** GETTING SCORES **********
 void updateScore() {
   gameScore += (int) ((millis()-millisSinceGameEnd)/900)*heroLives;
-  println(gameScore);
-  
+  //println(gameScore);
+}
+
+void logScore(int score) {
+  TableRow newEntry = scoreTable.addRow();
+  newEntry.setInt("scorelist", score);
+  saveTable(scoreTable, "data/scoretable.csv");
+  println("new score added: " + score);
+}
+
+void endgameScoreInfo(int score) {
+  scoreTable.sortReverse(int("scorelist")); // sort scores in descending order
+
+  // retrieve highest score in list
+  TableRow highestRow = scoreTable.getRow(0);
+  highScore = highestRow.getInt("scorelist");
+
+  // determine rank in list of current game's score
+  for (int i=0; i < scoreTable.getRowCount (); i++) {
+    TableRow searchedRow = scoreTable.getRow(i);
+    if (searchedRow.getInt("scorelist") == score) scoreRank = i+1;
+  }
+  // determine total amount of scores recorded
+  totalScores = scoreTable.getRowCount();
 }
 
 
@@ -371,7 +405,7 @@ void onLostUser(int userId)
   println("User Lost - userId: " + userId);
   println("RESTART OK");
   if (!titleScreen) {
-  restartOK = true;
+    restartOK = true;
   }
 }
 
