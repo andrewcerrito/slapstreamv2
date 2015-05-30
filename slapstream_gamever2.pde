@@ -17,7 +17,10 @@ boolean scoreLogged = false;
 Table scoreTable;
 int gameScore = 0;
 int highScore, scoreRank, totalScores;
+
+// info to track only the calibrated user
 int calibratedUser;
+boolean isUserCalibrated = false;
 
 Hero hero;
 Hero hero2;
@@ -120,6 +123,7 @@ void restart() {
   p1ready = false;
   p2ready = false;
   restartOK = false;
+  isUserCalibrated = false;
   frameCounter = 0;
 
   hero = new Hero(600/2, height-80, 85, green); //SET TO 600 - CHANGE BACK LATER
@@ -246,8 +250,6 @@ void draw() {
 
       // FOR DEBUG - visualize speed vectors onscreen for P1
       //      hero.speedVectorDraw();
-      
-      
     } else {  // if zero lives remaining:
 
       if (!scoreLogged) {
@@ -391,14 +393,19 @@ void endgameScoreInfo(int score) {
 // ******** KINECT USER TRACKING FUNCTIONS ********
 
 void onNewUser(int userId) {
-  println("start " + userId + " pose detection");
-  kinect.startPoseDetection("Psi", userId);
+  if (!isUserCalibrated) {
+    println("start " + userId + " pose detection");
+    kinect.startPoseDetection("Psi", userId);
+  } else {
+    println("user already calibrated, this is just noise!");
+  }
 }
 
 void onEndCalibration(int userId, boolean successful) {
   if (successful) {
     println("User " + userId + " calibrated !!!");
     calibratedUser = userId;
+    isUserCalibrated = true;
     kinect.startTrackingSkeleton(userId);
   } else {
     println("  Failed to calibrate " + userId + " !!!");
