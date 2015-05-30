@@ -17,6 +17,7 @@ boolean scoreLogged = false;
 Table scoreTable;
 int gameScore = 0;
 int highScore, scoreRank, totalScores;
+int calibratedUser;
 
 Hero hero;
 Hero hero2;
@@ -53,7 +54,7 @@ boolean titleScreen, p1ready, p2ready, restartOK;
 int frameCounter;
 
 void setup() {
-  size((600+450), 850, P2D);
+  size((600+450), 875, P2D);
   //smooth();
   frameRate(30);
   background(c1);
@@ -145,7 +146,7 @@ void draw() {
   //  background(c1);
   noStroke();
   fill(c1);
-  rect(0, 0, 600, 850);
+  rect(0, 0, 600, 875);
   c1 = color(0, 0, 0);
   starField();
   leftMeter.display();
@@ -397,6 +398,7 @@ void onNewUser(int userId) {
 void onEndCalibration(int userId, boolean successful) {
   if (successful) {
     println("User " + userId + " calibrated !!!");
+    calibratedUser = userId;
     kinect.startTrackingSkeleton(userId);
   } else {
     println("  Failed to calibrate " + userId + " !!!");
@@ -414,7 +416,7 @@ void onLostUser(int userId)
 {
   println("User Lost - userId: " + userId);
   println("RESTART OK");
-  if (!titleScreen) {
+  if (!titleScreen && userId == calibratedUser) {
     restartOK = true;
   }
 }

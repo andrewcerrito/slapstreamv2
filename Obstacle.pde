@@ -87,7 +87,7 @@ class Obstacle {
 
   void move() {
     obstSpeed = (float) (millis()-millisSinceGameEnd)/9000; // make speed increase the longer the game goes on
-    y= y + 3 + obstSpeed + speedModifier; // move down the screen
+    y= y + 4 + obstSpeed + speedModifier; // move down the screen
     if (y >= height + rad) { // if circle leaves bottom of screen:
       y = (int) -rad; // reset to top of screen
       x = (int) random(0, 600); // get a new random x-position - SET TO 600 FOR NOW, CHANGE BACK LATER
