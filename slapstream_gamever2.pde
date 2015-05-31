@@ -43,6 +43,8 @@ int heroLives, hero2Lives, randX;
 // time when last game ended - used for asteroid speed calculation
 long millisSinceGameEnd = 0;
 
+long millisSinceTrack = 0;
+
 // Style-related variables
 color c1 = color(0, 0, 0);
 color green = color(0, 255, 0);
@@ -352,9 +354,9 @@ void kinectDraw() {
    */
 
   if (userList.size() > 0) {
-    int userId = userList.get(0);
-    if (kinect.isTrackingSkeleton(userId)) {
-      hero.drawSkeleton(userId);
+    // int userId = userList.get(0);
+    if (kinect.isTrackingSkeleton(calibratedUser)) {
+      hero.drawSkeleton(calibratedUser);
       p1ready = true;
     }
   }
@@ -407,6 +409,7 @@ void onEndCalibration(int userId, boolean successful) {
     calibratedUser = userId;
     isUserCalibrated = true;
     kinect.startTrackingSkeleton(userId);
+    println("DID IT");
   } else {
     println("  Failed to calibrate " + userId + " !!!");
     kinect.startPoseDetection("Psi", userId);
@@ -422,9 +425,17 @@ void onStartPose(String pose, int userId) {
 void onLostUser(int userId)
 {
   println("User Lost - userId: " + userId);
-  println("RESTART OK");
-  if (!titleScreen && userId == calibratedUser) {
+  if (userId == calibratedUser) {
+    isUserCalibrated = false;
     restartOK = true;
+    println("RESTART OK");
+  }
+}
+
+void keyPressed() {
+  if (key == 'R'|| key == 'r') {
+    restartOK = true;
+    isUserCalibrated = false;
   }
 }
 
